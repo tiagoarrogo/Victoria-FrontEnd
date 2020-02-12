@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Vendas</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form [formGroup]="formGroup">
+
+    <ion-item>
+      <ion-label stacked>Período:</ion-label>
+      <ion-select formControlName="periodoSelecionado" (ionChange)="limpaCampos()" cancelText="CANCELAR" okText="OK">
+        <ion-option [value]="Anual">Anual</ion-option>
+        <ion-option [value]="Mensal">Mensal</ion-option>
+        <ion-option [value]="Diario">Diário</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label stacked>Ano</ion-label>
+      <ion-select formControlName="anosSelecionados" multiple="true" cancelText="CANCELAR" okText="OK"
+        (ionChange)="gerarGrafico()">
+        <ion-option *ngFor="let ano of anos" [value]="ano">{{ano}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item *ngIf="formGroup.value['periodoSelecionado'] !== 'Anual'">
+      <ion-label stacked>Mês</ion-label>
+      <ion-select formControlName="mesesSelecionados" multiple="true" cancelText="CANCELAR" okText="OK"
+        (ionChange)="gerarGrafico()">
+        <ion-option *ngFor="let mes of meses" [value]="mes">{{mes}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item
+      *ngIf="formGroup.value['periodoSelecionado'] !== 'Anual' && formGroup.value['periodoSelecionado'] !== 'Mensal'"
+      (ionChange)="gerarGrafico()">
+      <ion-label stacked>Dia</ion-label>
+      <ion-select formControlName="diasSelecionados" multiple="true" cancelText="CANCELAR" okText="OK">
+        <ion-option *ngFor="let dia of dias" [value]="dia">{{dia}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+
+
+
+    <ion-item>
+      <ion-label stacked>Lojas:</ion-label>
+      <ion-select formControlName="lojasSelecionadas" multiple="true" cancelText="CANCELAR" okText="OK"
+        (ionChange)="gerarGrafico()">
+        <ion-option *ngFor="let item of lojas" [value]="item.loja">{{item.nomeLoja}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+  </form>
+
+  <div>
+    <div>
+      <div style="position: relative; height:30vh; width:90vw">
+
+        <canvas *ngIf="carregou" baseChart [chartType]="'bar'" [datasets]="chartData" [labels]="chartLabels"
+          [options]="barChartOptions" [colors]="chartColors">
+        </canvas>
+      </div>
+    </div>
+  </div>
+
+</ion-content>

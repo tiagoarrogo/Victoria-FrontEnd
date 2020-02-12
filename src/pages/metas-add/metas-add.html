@@ -1,0 +1,35 @@
+  <ion-header>
+      <ion-navbar color="primary">
+        <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Home</ion-title>
+      </ion-navbar>
+    </ion-header>
+  
+
+<ion-content padding>
+
+  <form [formGroup]="formGroup" (ngSubmit)="addMeta(); $event.preventDefault(); formGroup.reset()">
+    <ion-item>
+        <ion-label stacked>Lojas*</ion-label>
+        <ion-select formControlName="nome_Loja" cancelText="CANCELAR" okText="OK"
+        >
+        <ion-option *ngFor="let item of itemsLoja" [value]="item.nomeLoja">{{item.nomeLoja}}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+        <ion-label stacked>Data Meta*</ion-label>
+        <ion-datetime  formControlName="mes_Meta" displayFormat="MM/YYYY" pickerFormat="DD/MM/YYYY"
+           min="2019"></ion-datetime>
+           
+      </ion-item>
+    <ion-item>
+        <ion-label stacked>Valor Meta*</ion-label>
+        <ion-input formControlName="valor_Meta" (Keydown.Tab)="formatCampos()" type="number"></ion-input>
+      </ion-item>
+      <button ion-button block type="submit">Salvar</button>
+      
+  </form>
+  <button ion-button block (click)="formClose()" color="danger">Fechar</button>
+</ion-content>

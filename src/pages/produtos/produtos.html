@@ -1,0 +1,34 @@
+<ion-header>
+    <ion-navbar color="primary">
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+      <ion-title>Produtos</ion-title>
+    </ion-navbar>
+  </ion-header>  
+
+ 
+
+<ion-content padding>
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles"
+          refreshingText="Refreshing...">
+        </ion-refresher-content>
+      </ion-refresher>
+  <ion-searchbar (ionInput)="getItems($event)" placeholder="Descrição do Produto"></ion-searchbar>
+    <ion-list>
+      <ion-item ion-item *ngFor="let item of items">
+        
+          <ion-thumbnail item-start>
+            <img src="./assets/imgs/blocolente.jpg">
+          </ion-thumbnail>
+          <h2>Código: {{item.cod_produto}}</h2>
+          <h2>Descrição: {{item.descricao}}</h2>
+          <h2>Unidade: {{item.unidade}}</h2>
+          <h2>Preço Venda: R$:{{item.preco_ven}}</h2>          
+          <button ion-button small (click)="detalharProduto(item.valor_bonus)"><ion-icon name="list"></ion-icon></button>
+        
+      </ion-item>
+      </ion-list>
+
+</ion-content>

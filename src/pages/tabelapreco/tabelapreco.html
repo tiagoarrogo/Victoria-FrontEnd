@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Tabela de Preços</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+
+    <form [formGroup]="formGroup">
+
+        
+
+        <ion-item>
+          <ion-label>Tipo de Produto:</ion-label>
+          <ion-select formControlName="codProduto" (ionChange)="buscaMarcas()" cancelText="CANCELAR" okText="OK">
+            <ion-option  [value]="0" >TODOS</ion-option>  
+            <ion-option *ngFor="let item of items" [value]="item.cod_Prod_Tipo" >{{item.tipo_Produto}}</ion-option>
+          </ion-select>
+        </ion-item>
+    </form>
+
+    
+        <ion-list>
+            <ion-item-divider>
+                <ion-label>
+                  Marcas
+                </ion-label>
+              </ion-item-divider>
+              <ion-item>
+            <button ion-item *ngFor="let marca of marcas" (click)="showProdutos(marca.cod_Prod_Marca)">
+                <ion-thumbnail item-start>
+                    <img src="./assets/imgs/{{marca.cod_Prod_Marca}}.jpg">
+                  </ion-thumbnail>
+              <h2> {{ marca.marca_Produto }} </h2>
+            </button>
+          </ion-item>
+          </ion-list>
+    
+
+
+</ion-content>

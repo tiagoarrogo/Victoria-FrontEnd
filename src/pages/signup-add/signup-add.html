@@ -1,0 +1,38 @@
+<ion-header>
+    <ion-navbar color="primary" >
+      <button color="primary" ion-button menuToggle>
+        <ion-icon name="root"></ion-icon>
+      </button>
+      <ion-title>Cadastro Usuário</ion-title>
+    </ion-navbar>
+  </ion-header>
+
+<ion-content padding>
+    <form [formGroup]="formGroup" (ngSubmit)="addUser(); $event.preventDefault()">
+      
+        <ion-item>
+          <ion-label stacked>Email*</ion-label>
+          <ion-input [(ngModel)]="email" formControlName="email" type="text" clearInput clearOnEdit="false"></ion-input>
+        </ion-item>        
+        <ion-item>
+          
+            <h6 *ngIf="errorEmail" class="error"> {{messageEmail}}</h6>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Senha*</ion-label>
+          <ion-input formControlName="senha" type="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          
+            <h6 *ngIf="errorPassword" class="error"> {{messagePassword}}</h6>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Loja</ion-label>
+          <ion-input [(ngModel)]="loja" formControlName="loja" type="text" clearInput clearOnEdit="false"></ion-input>
+        </ion-item>  
+
+
+        <button ion-button block type="submit">Salvar</button>
+      </form>
+
+</ion-content>

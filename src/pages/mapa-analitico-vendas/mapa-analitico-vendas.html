@@ -1,0 +1,251 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Vendas Mensal</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <form>
+
+    <ion-item>
+      <ion-label class="label2">Lojas:</ion-label>
+      <ion-select [(ngModel)]="lojasSelecionadas" name="lojas" multiple="true" cancelText="CANCELAR" okText="OK"
+        (ionChange)="grafico($event);">
+        <ion-option [value]="TODAS">TODAS</ion-option>
+        <ion-option *ngFor="let item of metasLoja" [value]="item.nome_Loja">{{item.nome_Loja}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title class="ioncard">Faturamento Victoria & Co</ion-card-title>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <h2><label class="label2">Período Apuração:</label> {{dataFaturamento}}</h2>
+        <h2><label class="label2"> Faturamento:</label>{{totalFaturamento | currency:'R$'}}</h2>
+
+        <h2><label class="label2"> Meta:</label> {{metas | currency:'R$'}}</h2>
+        <h2><label class="label2">Percentual Atingido:</label> {{((totalFaturamento * 100)/metas) | currency:'%' }}</h2>
+
+
+        <button ion-button clear item-end (click)="detailMetas()">Detalhes Meta</button>
+        <ion-item *ngIf="detalheMetas">
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <label>Loja</label>
+              </ion-col>
+              <ion-col>
+                <label>Meta</label>
+              </ion-col>
+            </ion-row>
+            <ion-list *ngFor="let item of metasLoja">
+              <ion-row justify-content-center>
+                <ion-col>
+                  <h2>{{item.nome_Loja}}</h2>
+                </ion-col>
+
+                <ion-col>
+                  <h2>{{item.valor_Meta | currency:'R$'}}</h2>
+                </ion-col>
+              </ion-row>
+            </ion-list>
+          </ion-grid>
+        </ion-item>
+        <button *ngIf="detalheMetas" ion-button clear item-end (click)="closeDetailMetas()">Fechar</button>
+
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title class="ioncard">Ranking Vendedores</ion-card-title>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <label class="label2">Vendedor</label>
+            </ion-col>
+            <ion-col>
+              <label class="label2">Total</label>
+            </ion-col>
+            <ion-col>
+              <label class="label2">Ticket Médio</label>
+            </ion-col>
+          </ion-row>
+          <ion-list *ngFor="let item of faturamentoVendedores">
+              
+            <ion-row class="borda" justify-content-center>
+              <ion-col>
+                <label>{{item.vendedor}}</label>
+              </ion-col>
+
+              <ion-col>
+                <label>{{item.total | currency:'R$'}}</label>
+              </ion-col>
+              <ion-col>
+                <label>{{item.ticketMedio | currency:'R$'}}</label>
+              </ion-col>
+            </ion-row>
+            <ion-row></ion-row>
+          
+          </ion-list>
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title class="ioncard">Ranking Marcas/Grife</ion-card-title>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <label class="label2">Marca/Grife</label>
+            </ion-col>
+            <ion-col col-4>
+              <label class="label2">Quantidade</label>
+            </ion-col>
+          </ion-row>
+          <ion-list *ngFor="let item of faturamentoMarca">
+            <ion-row class="borda" justify-content-center>
+              <ion-col>
+                <label>{{item.prod_Marca}}</label>
+              </ion-col>
+              <ion-col col-4>
+                <h2>{{item.total}}</h2>
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title class="ioncard">Ranking Progressivos</ion-card-title>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <label class="label2">Marca</label>
+            </ion-col>
+            <ion-col col-4>
+              <label class="label2">Quantidade</label>
+            </ion-col>
+          </ion-row>
+          <ion-list *ngFor="let item of faturamentoMultifocal">
+            <ion-row class="borda" justify-content-center>
+              <ion-col>
+                <label>{{item.prod_Marca}}</label>
+              </ion-col>
+              <ion-col col-4>
+                <h2>{{item.total}}</h2>
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+
+      <ion-card-header>
+        <ion-card-title class="ioncard">Ranking Lentes Prontas</ion-card-title>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <label class="label2">Marca</label>
+            </ion-col>
+            <ion-col col-4>
+              <label class="label2">Quantidade</label>
+            </ion-col>
+          </ion-row>
+          <ion-list *ngFor="let item of faturamentoLentes">
+            <ion-row class="borda" justify-content-center>
+              <ion-col>
+                <label>{{item.prod_Marca}}</label>
+              </ion-col>
+              <ion-col col-4>
+                <h2>{{item.total}}</h2>
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ioncard">Comparativo Solar X RX</ion-card-title>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+
+        <div>
+          <canvas *ngIf="carregou" baseChart [chartType]="'pie'" [datasets]="pieChartData" [labels]="pieChartLabels"
+            [options]="pieChartOptions" [colors]="pieChartColors">
+          </canvas>
+        </div>
+
+
+
+      </ion-card-content>
+    </ion-card>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ioncard">Ranking Recebimento</ion-card-title>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+
+
+        <div>
+          <canvas *ngIf="carregou2" baseChart [chartType]="'pie'" [datasets]="pieChartData2" [labels]="pieChartLabels2"
+            [options]="pieChartOptions2" [colors]="pieChartColors2">
+          </canvas>
+        </div>
+
+
+
+
+      </ion-card-content>
+    </ion-card>
+
+
+
+  </form>
+
+</ion-content>
